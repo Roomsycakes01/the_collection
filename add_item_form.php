@@ -99,8 +99,6 @@ function listGen(Array $bigArray)
     echo '</ul>';
 }
 
-new Game('WoW', $db, true, 'MMO RPG', '300','59.99');
-
 $gamesList = gamesArrayGen($db);
 
 listGen($gamesList);
