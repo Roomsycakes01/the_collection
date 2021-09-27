@@ -7,6 +7,13 @@
     <link rel='stylesheet' href='normalize.css'/>
 </head>
 <body>
+    <form method='POST'>
+        <input name='name' type='text'/>
+        <input name='genre' type='text'/>
+        <input name='length' type='text'/>
+        <input name='price' type='text'/>
+        <input type='submit'/>
+    </form>
     <?php
         require_once('add_item_form.php');
     ?>

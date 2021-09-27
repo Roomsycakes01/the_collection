@@ -99,6 +99,12 @@ function listGen(Array $bigArray)
     echo '</ul>';
 }
 
+$testIfEmpty = $_POST;
+$testIfEmpty[] = "";
+if(isset($_POST) && count(array_unique($testIfEmpty)) !== 1 ){
+    new Game($_POST['name'],$db,true,$_POST['genre'],$_POST['length'], $_POST['price']);
+}
+
 $gamesList = gamesArrayGen($db);
 
 listGen($gamesList);
