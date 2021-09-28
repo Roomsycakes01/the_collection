@@ -7,10 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class gameClassTest extends TestCase
 {
-    public function testGetParams()
+    public function testSuccessGetParams()
     {
-        $data = [['name' => 'Journey', 'genre' => 'RPG', 'length' => 15, 'price' => 9.99]];
-        $game = new Game('Journey', $data);
+        $game = new Game('Journey', 'RPG', 15, 9.99);
         $result = $game->strParams();
         $this -> assertEquals('Journey, RPG, 15, 9.99', $result);
     }
