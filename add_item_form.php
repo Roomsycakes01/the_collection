@@ -43,11 +43,11 @@ class Game
 
     /**
      * echos the objects parameters as a list item.
-     *
+     * @return String
      */
-    public function echoParams()
+    public function strParams() : String
     {
-        echo $this -> name . ', ' . $this -> genre . ', ' . $this -> length . ', ' . $this -> price;
+        return $this -> name . ', ' . $this -> genre . ', ' . $this -> length . ', ' . $this -> price;
     }
 
     /**
@@ -101,22 +101,6 @@ function objectArray(Array $data) : Array{
 }
 
 /**
- * generates a comma seperated list in html of the inputted array of objects with an echo function in the object
- *
- * @param array $objectArray
- */
-function listGen(Array $objectArray)
-{
-    echo '<ul>';
-    foreach ($objectArray as $object) {
-        echo '<li>';
-        $object -> echoParams();
-        echo '. </li>';
-    }
-    echo '</ul>';
-}
-
-/**
  * adds a new item into the database.
  *
  * @param String $name
@@ -132,5 +116,10 @@ function addStats(String $name, String $genre, Int $length, Float $price, PDO $d
 
 }
 $objectArray = objectArray($data);
-listGen($objectArray);
+
+echo '<ul>';
+foreach ($objectArray as $object) {
+    echo '<li>' . $object -> strParams() . '. </li>';
+}
+echo '</ul>';
 
