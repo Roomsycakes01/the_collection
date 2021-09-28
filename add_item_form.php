@@ -4,12 +4,17 @@ $db = new PDO ('mysql:host=db;dbname=collection', 'root', 'password');
 
 $db -> setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-$nameQuery = $db->prepare( 'SELECT `name` FROM `games`;');
+$testIfEmpty = $_POST;
+$testIfEmpty[] = "";
+if(isset($_POST) && count(array_unique($testIfEmpty)) !== 1 ){
+    addStats($_POST['name'],$_POST['genre'],$_POST['length'], $_POST['price'],$db);
+}
 
-$nameQuery->execute();
+$fullQuery = $db->prepare( 'SELECT `name`, `genre`, `length`, `price` FROM `games`;');
 
-$names = $nameQuery -> fetchAll();
+$fullQuery->execute();
 
+$data = $fullQuery -> fetchAll();
 
 class Game
 {
@@ -22,20 +27,13 @@ class Game
      * The constructor for the Game object, only needs a name and the db to search the db and create a new object, if the add section is set to true th constructor can add a new item to the db
      *
      * @param String $name
-     * @param PDO $db
-     * @param bool $add
-     * @param String $genre
-     * @param String $length
-     * @param String $price
+     * @param Array $data
      */
-    public function __construct(String $name, PDO $db, Bool $add = false, String $genre = '', String $length ='', String $price ='')
+    public function __construct(String $name, Array $data)
     {
-        if($this->nameSearch($name,$db) === true){
+        if($this->nameSearch($name,$data) === true){
             $this -> name = $name;
-            $this -> getStats($name,$db);
-        }
-        elseif($add === true){
-            $this->addStats($name, $genre, $length, $price, $db);
+            $this -> importStats($name,$data);
         }
         else{
             echo 'The name you entered is not in the collection.';
@@ -44,30 +42,26 @@ class Game
     }
 
     /**
-     * returns an array of all the objects parameters.
+     * echos the objects parameters as a list item.
      *
-     * @return array
      */
-    public function getParams() :Array
+    public function echoParams()
     {
-        return ['name' => $this -> name, 'genre' =>$this -> genre, 'length' => $this -> length, 'price' => $this -> price];
+        echo $this -> name . ', ' . $this -> genre . ', ' . $this -> length . ', ' . $this -> price;
     }
-    
+
     /**
      * Checks to see if the inputted name is in the db.
      *
      * @param String $name
-     * @param PDO $db
+     * @param Array $data
      * @return bool
      */
-    protected function nameSearch( String $name, PDO $db) : Bool
+    protected function nameSearch( String $name, Array $data) : Bool
     {
-        $nameQuery = $db->prepare( 'SELECT `name` FROM `games`;');
-        $nameQuery -> execute();
-        $names = $nameQuery -> fetchAll();
         $editedNames = [];
-        foreach ($names as $n){
-            $editedNames[] = $n['name'];
+        foreach ($data as $game){
+            $editedNames[] = $game['name'];
         }
         return in_array($name, $editedNames);
     }
@@ -76,85 +70,67 @@ class Game
      * when given a name assigns the values of the other stats to the object from the database.
      *
      * @param String $name
-     * @param PDO $db
+     * @param Array $data
      */
-    protected function getStats(String $name, PDO $db)
+    protected function importStats(String $name, Array $data)
     {
-        $searchQuery = $db->prepare( 'SELECT `name`, `genre`, `length`, `price` FROM `games` WHERE name = :name ;');
-        $searchQuery -> execute([ 'name' => $name]);
-        $gameData = $searchQuery -> fetchAll();
-        $this -> genre = $gameData[0]['genre'];
-        $this -> length = $gameData[0]['length'];
-        $this -> price = $gameData[0]['price'];
-    }
-
-    /**
-     * adds the inputted stats into a new item in the db
-     *
-     * @param String $name
-     * @param String $genre
-     * @param Int $length
-     * @param Float $price
-     * @param PDO $db
-     */
-    protected function addStats(String $name, String $genre, Int $length, Float $price, PDO $db)
-    {
-        $addQuery = $db -> prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
-        $addQuery -> execute(['name' => $name, 'genre' => $genre, 'length' => $length, 'price' => $price]);
+        foreach ($data as $game){
+            if ($name === $game['name']){
+                $this -> genre = $game['genre'];
+                $this -> length = $game['length'];
+                $this -> price = $game['price'];
+                break;
+            }
+        }
     }
 }
 
 /**
- * generates a list of all the games and info about them in the db
+ * Generates the full list of objects based on the data
  *
- * @param PDO $db
+ * @param array $data
  * @return array
  */
-function gamesArrayGen(PDO $db) : Array {
-    $nameQuery = $db->prepare( 'SELECT `name` FROM `games`;');
-    $nameQuery->execute();
-    $names = $nameQuery -> fetchAll();
-    $gamesList = [];
-    $finalGamesList = [];
-    foreach($names as $name){
-        $game = new Game($name['name'], $db);
-        $gamesList[] = $game;
+function objectArray(Array $data) : Array{
+    $objectArray = [];
+    foreach($data as $game){
+        $gameObject = new Game($game['name'], $data);
+        $objectArray[] = $gameObject;
     }
-    foreach($gamesList as $game2){
-        $game2Array = $game2->getParams();
-        $finalGamesList[] = $game2Array;
-    }
-    return $finalGamesList;
+    return $objectArray;
 }
 
 /**
- * generates a comma seperated list in html of the inputted array
+ * generates a comma seperated list in html of the inputted array of objects with an echo function in the object
  *
- * @param array $bigArray
+ * @param array $objectArray
  */
-function listGen(Array $bigArray)
+function listGen(Array $objectArray)
 {
     echo '<ul>';
-    foreach ($bigArray as $array) {
-        $tracker = 0;
+    foreach ($objectArray as $object) {
         echo '<li>';
-        foreach ($array as $item) {
-            if ($tracker === 0) {
-                echo $item;
-                $tracker = 1;
-                continue;
-            }
-            echo ", $item";
-        }
+        $object -> echoParams();
         echo '. </li>';
     }
     echo '</ul>';
 }
-$testIfEmpty = $_POST;
-$testIfEmpty[] = "";
-if(isset($_POST) && count(array_unique($testIfEmpty)) !== 1 ){
-    new Game($_POST['name'],$db,true,$_POST['genre'],$_POST['length'], $_POST['price']);
+
+/**
+ * adds a new item into the database.
+ *
+ * @param String $name
+ * @param String $genre
+ * @param Int $length
+ * @param Float $price
+ * @param PDO $db
+ */
+function addStats(String $name, String $genre, Int $length, Float $price, PDO $db){
+
+    $addQuery = $db -> prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
+    $addQuery -> execute(['name' => $name, 'genre' => $genre, 'length' => $length, 'price' => $price]);
+
 }
-$gamesList = gamesArrayGen($db);
-listGen($gamesList);
+$objectArray = objectArray($data);
+listGen($objectArray);
 
