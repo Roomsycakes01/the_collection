@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang='en'>
+<?php
+require_once('gameListFunctions.php');
+$db = dbConnection();
+formReader($db);
+$data = fullQuery($db);
+$objectArray = objectArray($data);
+?>
 <head>
     <meta charset='UTF-8'/>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
@@ -7,6 +14,7 @@
     <link rel='stylesheet' href='normalize.css'/>
 </head>
 <body>
+
     <form method='POST'>
         <label>name:</label><input name='name' type='text'/>
         <label>genre:</label><input name='genre' type='text'/>
@@ -15,7 +23,7 @@
         <input type='submit'/>
     </form>
     <?php
-        require_once('gameList.php');
+        listGen($objectArray);
     ?>
 </body>
 </html>

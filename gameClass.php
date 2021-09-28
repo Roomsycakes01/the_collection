@@ -11,60 +11,47 @@ class Game
      * The constructor for the Game object, only needs a name and the db to search the db and create a new object, if the add section is set to true th constructor can add a new item to the db
      *
      * @param String $name
-     * @param Array $data
+     * @param String $genre
+     * @param Int $length
+     * @param Float $price
+     *
      */
-    public function __construct(String $name, Array $data)
+    public function __construct(String $name, String $genre, Int $length, Float $price)
     {
-        if($this->nameSearch($name,$data) === true){
-            $this -> name = $name;
-            $this -> importStats($name,$data);
-        }
-        else{
-            echo 'The name you entered is not in the collection.';
-        }
-
+        $this->name = $name;
+        $this->genre = $genre;
+        $this->length = $length;
+        $this->price = $price;
     }
 
     /**
+     * Allows ou to get the objects parameters if needed
+     *
+     * @return array
+     */
+    public function getter() : Array{
+        return [$this->name,$this->genre,$this->length,$this->price];
+    }
+    /**
      * echos the objects parameters as a list item.
+     *
      * @return String
      */
     public function strParams() : String
     {
-        return $this -> name . ', ' . $this -> genre . ', ' . $this -> length . ', ' . $this -> price;
+        return $this->name . ', ' . $this->genre . ', ' . $this->length . ', ' . $this->price;
     }
 
     /**
-     * Checks to see if the inputted name is in the db.
+     * adds the object into the database
      *
-     * @param String $name
-     * @param Array $data
-     * @return bool
+     * @param $db
+     * @return Void
      */
-    protected function nameSearch( String $name, Array $data) : Bool
+    public function saveGame($db) : Void
     {
-        $editedNames = [];
-        foreach ($data as $game){
-            $editedNames[] = $game['name'];
-        }
-        return in_array($name, $editedNames);
-    }
+        $addQuery = $db -> prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
+        $addQuery -> execute(['name' => $this->name, 'genre' => $this->genre, 'length' => $this->length, 'price' => $this->price]);
 
-    /**
-     * when given a name assigns the values of the other stats to the object from the database.
-     *
-     * @param String $name
-     * @param Array $data
-     */
-    protected function importStats(String $name, Array $data)
-    {
-        foreach ($data as $game){
-            if ($name === $game['name']){
-                $this -> genre = $game['genre'];
-                $this -> length = $game['length'];
-                $this -> price = $game['price'];
-                break;
-            }
-        }
     }
 }
