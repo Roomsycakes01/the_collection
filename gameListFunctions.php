@@ -45,9 +45,10 @@ function objectArray(Array $data) : Array{
 /**
  * generates a list of the games and their parameters in an array of game objects
  *
- * @param $objectArray
+ * @param Array $objectArray
+ * @return String
  */
-function listGen($objectArray) : String {
+function listGen(Array $objectArray) : String {
     $returnString = '<ul>';
     foreach ($objectArray as $object) {
         $returnString .= '<li>' . $object->strParams() . '. </li>';
