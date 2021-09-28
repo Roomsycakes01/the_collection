@@ -11,6 +11,13 @@ class gameClassTest extends TestCase
     {
         $game = new Game('Journey', 'RPG', 15, 9.99);
         $result = $game->strParams();
-        $this -> assertEquals('Journey, RPG, 15, 9.99', $result);
+        $this->assertEquals('Journey, RPG, 15, 9.99', $result);
     }
+    public function testSuccessGetter()
+    {
+        $game = new Game('Journey', 'RPG', 15, 9.99);
+        $result = $game->getter();
+        $this->assertEquals(['Journey', 'RPG', 15, 9.99], $result);
+    }
+
 }

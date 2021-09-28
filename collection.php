@@ -23,7 +23,7 @@ $objectArray = objectArray($data);
         <input type='submit'/>
     </form>
     <?php
-        listGen($objectArray);
+        echo listGen($objectArray);
     ?>
 </body>
 </html>

@@ -47,12 +47,12 @@ function objectArray(Array $data) : Array{
  *
  * @param $objectArray
  */
-function listGen($objectArray) : Void {
-    echo '<ul>';
+function listGen($objectArray) : String {
+    $returnString = '<ul>';
     foreach ($objectArray as $object) {
-        echo '<li>' . $object->strParams() . '. </li>';
+        $returnString .= '<li>' . $object->strParams() . '. </li>';
     }
-    echo '</ul>';
+    return $returnString . '</ul>';
 }
 
 /**
