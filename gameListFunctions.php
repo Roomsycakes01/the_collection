@@ -36,8 +36,7 @@ function fullQuery(PDO $db) : Array
 function objectArray(Array $data) : Array{
     $objectArray = [];
     foreach($data as $game){
-        $gameObject = new Game($game['name'], $game['genre'], $game['length'], $game['price']);
-        $objectArray[] = $gameObject;
+        $objectArray[] = new Game($game['name'], $game['genre'], $game['length'], $game['price']);
     }
     return $objectArray;
 }
@@ -61,9 +60,7 @@ function listGen(Array $objectArray) : String {
  */
 function formReader($db) : Void
 {
-    $testIfEmpty = $_POST;
-    $testIfEmpty[] = "";
-    if (isset($_POST) && count(array_unique($testIfEmpty)) !== 1) {
+    if (isset($_POST) && in_array("", $_POST) === false) {
         $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
         $game->saveGame($db);
     }
