@@ -58,11 +58,31 @@ function listGen(Array $objectArray) : String {
 /**
  * This code reads the data inputted into the form and adds it to the db
  */
-function formReader($db) : Void
+
+function formReader(PDO $db, String $pageCheck) : Void
 {
-    if (isset($_POST) && in_array("", $_POST) === false) {
-        $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
-        $game->saveGame($db);
+    if (isset($_POST) && in_array("", $_POST) === false ){
+        if($pageCheck === 'save' && array_map('is_numeric',$_POST) === ['name' => false, 'genre' => false, 'length' => true, 'price' => true]){
+            $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
+            $test = $game->saveGame($db);
+            if($test){
+                header('Location: index.php');
+            }
+        }
+        elseif($pageCheck === 'edit' && array_map('is_numeric',$_POST) === ['name' => false, 'genre' => false, 'length' => true, 'price' =>true]){
+            $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
+            $test = $game->editGame($db);
+            if($test){
+                header('Location: index.php');
+            }
+        }
+        elseif($pageCheck === 'delete'&& isset($_POST['name'])){
+            $game = new Game($_POST['name']);
+            $test = $game->deleteGame($db);
+            if($test){
+                header('Location: index.php');
+            }
+        }
     }
 }
 

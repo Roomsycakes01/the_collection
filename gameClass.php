@@ -16,7 +16,7 @@ class Game
      * @param Float $price
      *
      */
-    public function __construct(String $name, String $genre, Int $length, Float $price)
+    public function __construct(String $name, String $genre = 'placeholder', Int $length = 0, Float $price = 0)
     {
         $this->name = $name;
         $this->genre = $genre;
@@ -32,6 +32,7 @@ class Game
     public function getter() : Array{
         return [$this->name,$this->genre,$this->length,$this->price];
     }
+
     /**
      * echos the objects parameters as a list item.
      *
@@ -43,15 +44,38 @@ class Game
     }
 
     /**
-     * adds the object into the database
+     * Adds the object into the database, returns true if successful and false otherwise.
      *
-     * @param $db
-     * @return Void
+     * @param PDO $db
+     * @return Bool
      */
-    public function saveGame($db) : Void
+    public function saveGame(PDO $db) : Bool
     {
-        $addQuery = $db -> prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
-        $addQuery -> execute(['name' => $this->name, 'genre' => $this->genre, 'length' => $this->length, 'price' => $this->price]);
+        $addQuery = $db->prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
+        return $addQuery->execute(['name' => $this->name, 'genre' => $this->genre, 'length' => $this->length, 'price' => $this->price]);
+    }
 
+    /**
+     * Edits an object in the database, searches by name. Returns true if successful and false otherwise.
+     *
+     * @param PDO $db
+     * @return Bool
+     */
+    public function editGame(PDO $db) : Bool
+    {
+        $editQuery = $db->prepare('UPDATE `games` SET `genre` = :genre, `length` = :length, `price` = :price WHERE `name` = :name LIMIT 1;');
+        return $editQuery->execute(['name' => $this->name, 'genre' => $this->genre, 'length' => $this->length, 'price' => $this->price]);
+    }
+
+    /**
+     * Deletes an object from the database, searches by name. Returns true if successful and false otherwise.
+     *
+     * @param PDO $db
+     * @return Bool
+     */
+    public function deleteGame(PDO $db) : Bool
+    {
+        $deleteQuery = $db->prepare('DELETE FROM `games` WHERE `name` = :name LIMIT 1;');
+        return $deleteQuery->execute(['name' => $this->name]);
     }
 }
