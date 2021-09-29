@@ -44,15 +44,24 @@ class Game
     }
 
     /**
-     * Adds the object into the database, returns true if successful and false otherwise.
+     * Adds the object into the database or undeletes it if it's flagged as deleted in the db, returns true if successful and false otherwise.
      *
      * @param PDO $db
      * @return Bool
      */
     public function saveGame(PDO $db) : Bool
     {
-        $addQuery = $db->prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
-        return $addQuery->execute(['name' => $this->name, 'genre' => $this->genre, 'length' => $this->length, 'price' => $this->price]);
+        $nameQuery = $db->prepare('SELECT `name`, `delete` FROM `games` WHERE `name` = :name AND `delete` = 1 ;');
+        $test = $nameQuery->execute(['name' =>$this->name]);
+        if($test){
+            $restoreQuery = $db->prepare('UPDATE `games` SET `delete` = 0 WHERE `name` = :name AND `delete` = 1 LIMIT 1 ;');
+            $this->editGame($db);
+            return $restoreQuery->execute(['name' => $this->name]);
+        }
+        else{
+            $addQuery = $db->prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');
+            return $addQuery->execute(['name' => $this->name, 'genre' => $this->genre, 'length' => $this->length, 'price' => $this->price]);
+        }
     }
 
     /**
@@ -75,7 +84,7 @@ class Game
      */
     public function deleteGame(PDO $db) : Bool
     {
-        $deleteQuery = $db->prepare('DELETE FROM `games` WHERE `name` = :name LIMIT 1;');
+        $deleteQuery = $db->prepare('UPDATE `games` SET `delete` = 1 WHERE `name` = :name AND `delete` = 0 LIMIT 1;');
         return $deleteQuery->execute(['name' => $this->name]);
     }
 }

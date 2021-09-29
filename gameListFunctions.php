@@ -22,7 +22,7 @@ function dbConnection() : PDO{
  */
 function fullQuery(PDO $db) : Array
 {
-    $fullQuery = $db->prepare('SELECT `name`, `genre`, `length`, `price` FROM `games`;');
+    $fullQuery = $db->prepare('SELECT `name`, `genre`, `length`, `price` FROM `games` WHERE `delete` = 0 ;');
     $fullQuery->execute();
     return $fullQuery->fetchAll();
 }
@@ -73,18 +73,21 @@ function formReader(PDO $db, String $pageCheck) : Void
             if ($test) {
                 header('Location: index.php');
             }
-        } elseif ($pageCheck === 'edit' && array_map('is_numeric', $_POST) === ['name' => false, 'genre' => false, 'length' => true, 'price' => true]) {
+        }
+        elseif ($pageCheck === 'edit' && array_map('is_numeric', $_POST) === ['name' => false, 'genre' => false, 'length' => true, 'price' => true]) {
             $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
             $test = $game->editGame($db);
             if ($test) {
                 header('Location: index.php');
             }
-        } elseif ($pageCheck === 'delete' && isset($_POST['name'])) {
+        }
+        elseif ($pageCheck === 'delete' && isset($_POST['name'])) {
             $game = new Game($_POST['name']);
             $test = $game->deleteGame($db);
             if ($test) {
                 header('Location: index.php');
             }
+
         }
     }
 }
