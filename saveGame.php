@@ -11,6 +11,7 @@ formReader($db,$pageCheck);
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
     <title>Save Game</title>
     <link rel='stylesheet' href='normalize.css'/>
+    <link rel='stylesheet' href='collection.css'/>
 </head>
 <body>
     <a href='index.php'>Home.</a>
@@ -22,10 +23,10 @@ formReader($db,$pageCheck);
             <input name='genre' type='text'/>
         </label>
         <label>length:
-            <input name='length' type='text'/>
+            <input name='length' type='number'/>
         </label>
         <label>price:
-            <input name='price' type='text'/>
+            <input name='price' type='number'/>
         </label>
         <input type='submit'/>
     </form>
