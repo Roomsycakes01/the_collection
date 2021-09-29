@@ -57,6 +57,7 @@ function listGen(Array $objectArray) : String {
 
 /**
  * Checks which method to edit the database with then makes an object using the form inputs and applies the save, edit or delete function to it.
+ * If the function called is successful this function then returns you to the homepage.
  *
  * @param PDO $db
  * @param String $pageCheck
