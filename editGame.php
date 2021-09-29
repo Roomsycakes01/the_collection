@@ -12,21 +12,22 @@ formReader($db,$pageCheck);
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
     <title>The Collection</title>
     <link rel='stylesheet' href='normalize.css'/>
+    <link rel='stylesheet' href='collection.css'/>
 </head>
 <body>
 <a href='index.php'>Home.</a>
 <form method='post'>
-    <label>Name:
+    <label>name:
         <input name='name' type='text'/>
     </label>
-    <label>Genre:
+    <label>genre:
         <input name='genre' type='text'/>
     </label>
-    <label>Name:
-        <input name='length' type='text'/>
+    <label>length:
+        <input name='length' type='number'/>
     </label>
-    <label>Name:
-        <input name='price' type='text'/>
+    <label>price:
+        <input name='price' type='number'/>
     </label>
     <input type='submit'/>
 </form>

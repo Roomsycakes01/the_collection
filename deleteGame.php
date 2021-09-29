@@ -12,6 +12,7 @@ formReader($db,$pageCheck);
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
     <title>The Collection</title>
     <link rel='stylesheet' href='normalize.css'/>
+    <link rel='stylesheet' href='collection.css'/>
 </head>
 <body>
     <a href='index.php'>Home.</a>
