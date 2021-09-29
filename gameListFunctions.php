@@ -22,7 +22,7 @@ function dbConnection() : PDO{
  */
 function fullQuery(PDO $db) : Array
 {
-    $fullQuery = $db->prepare('SELECT `name`, `genre`, `length`, `price` FROM `games`;');
+    $fullQuery = $db->prepare('SELECT `name`, `genre`, `length`, `price` FROM `games` WHERE `delete` = 0 ;');
     $fullQuery->execute();
     return $fullQuery->fetchAll();
 }
@@ -56,13 +56,36 @@ function listGen(Array $objectArray) : String {
 }
 
 /**
- * This code reads the data inputted into the form and adds it to the db
+ * Checks which method to edit the database with then makes an object using the form inputs and applies the save, edit or delete function to it.
+ * If the function called is successful this function then returns you to the homepage.
+ *
+ * @param PDO $db
+ * @param String $pageCheck
+ * @return Void
  */
-function formReader($db) : Void
+
+function formReader(PDO $db, String $pageCheck) : Void
 {
     if (isset($_POST) && in_array("", $_POST) === false) {
-        $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
-        $game->saveGame($db);
+        if ($pageCheck === 'save' && array_map('is_numeric', $_POST) === ['name' => false, 'genre' => false, 'length' => true, 'price' => true]) {
+            $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
+            $test = $game->saveGame($db);
+        }
+        elseif ($pageCheck === 'edit' && array_map('is_numeric', $_POST) === ['name' => false, 'genre' => false, 'length' => true, 'price' => true]) {
+            $game = new Game($_POST['name'], $_POST['genre'], $_POST['length'], $_POST['price']);
+            $test = $game->editGame($db);
+        }
+        elseif ($pageCheck === 'delete' && isset($_POST['name'])) {
+            $game = new Game($_POST['name']);
+            $test = $game->deleteGame($db);
+
+        }
+        else{
+            $test = false;
+        }
+        if ($test) {
+            header('Location: index.php');
+        }
     }
 }
 
