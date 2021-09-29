@@ -79,3 +79,4 @@ class Game
         return $deleteQuery->execute(['name' => $this->name]);
     }
 }
+
