@@ -56,7 +56,11 @@ function listGen(Array $objectArray) : String {
 }
 
 /**
- * This code reads the data inputted into the form and adds it to the db
+ * Checks which method to edit the database with then makes an object using the form inputs and applies the save, edit or delete function to it.
+ *
+ * @param PDO $db
+ * @param String $pageCheck
+ * @return Void
  */
 
 function formReader(PDO $db, String $pageCheck) : Void
