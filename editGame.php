@@ -16,14 +16,18 @@ formReader($db,$pageCheck);
 <body>
 <a href='index.php'>Home.</a>
 <form method='post'>
-    <label for='name'>Name:</label>
-        <input name='name' id='name' type='text'/>
-    <label for='genre'>Genre:</label>
-        <input name='genre' id='genre' type='text'/>
-    <label for='length'>Name:</label>
-        <input name='length' id='length' type='text'/>
-    <label for='price'>Name:</label>
-        <input name='price' id='price' type='text'/>
+    <label>Name:
+        <input name='name' type='text'/>
+    </label>
+    <label>Genre:
+        <input name='genre' type='text'/>
+    </label>
+    <label>Name:
+        <input name='length' type='text'/>
+    </label>
+    <label>Name:
+        <input name='price' type='text'/>
+    </label>
     <input type='submit'/>
 </form>
 </body>
