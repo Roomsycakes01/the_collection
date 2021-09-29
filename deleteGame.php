@@ -17,7 +17,7 @@ formReader($db,$pageCheck);
 <body>
     <a href='index.php'>Home.</a>
     <form method='post'>
-        <label>Name:
+        <label>name:
             <input name='name' type='text'/>
         </label>
         <input type='submit'/>
