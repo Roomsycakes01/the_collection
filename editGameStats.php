@@ -33,15 +33,15 @@ else{
 <a href='index.php'>Home.</a>
 <h1> Edit <?php echo $name ?></h1>
 <form method='post'>
-    <input name='name' type='hidden' value=<?php echo $name ?> />
+    <input name='name' type='hidden' value='<?php echo $name ?>' />
     <label>genre:
-        <input name='genre' type='text' value=<?php echo $gameStats['genre']?> />
+        <input name='genre' type='text' value='<?php echo $gameStats['genre']?>' />
     </label>
     <label>length:
-        <input name='length' type='number' value=<?php echo $gameStats['length']?> />
+        <input name='length' type='number' value='<?php echo $gameStats['length']?>' />
     </label>
     <label>price:
-        <input name='price' type='text' value=<?php echo $gameStats['price']?> />
+        <input name='price' type='text' value='<?php echo $gameStats['price']?>' />
     </label>
     <input type='submit'/>
 </form>
