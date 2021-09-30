@@ -59,11 +59,11 @@ function objectArray(Array $data) : Array{
  * @return String
  */
 function listGen(Array $objectArray) : String {
-    $returnString = '<ul>';
+    $returnString = '';
     foreach ($objectArray as $object) {
-        $returnString .= '<li>' . $object->strParams() . '. </li>';
+        $returnString .= '<li>' . $object->strParams() . '</li>';
     }
-    return $returnString . '</ul>';
+    return $returnString;
 }
 
 /**

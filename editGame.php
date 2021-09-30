@@ -12,7 +12,7 @@ $db = dbConnection();
     <link rel='stylesheet' href='collection.css'/>
 </head>
 <body>
-<a href='index.php'>Home.</a>
+<a href='index.php'>Home</a>
 <form method='post' action='editGameStats.php' >
     <label>name:
         <select name='name' autocomplete='off'>

@@ -30,7 +30,7 @@ else{
     <link rel='stylesheet' href='collection.css'/>
 </head>
 <body>
-<a href='index.php'>Home.</a>
+<a href='index.php'>Home</a>
 <h1> Edit <?php echo $name ?></h1>
 <form method='post'>
     <input name='name' type='hidden' value='<?php echo $name ?>' />

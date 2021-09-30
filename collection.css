@@ -1,0 +1,25 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #FEFEFE;
+    margin: 10px;
+}
+
+ul{
+    margin: auto;
+    width: 80%;
+}
+
+nav{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+}
+

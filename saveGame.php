@@ -14,7 +14,7 @@ formReader($db,$pageCheck);
     <link rel='stylesheet' href='collection.css'/>
 </head>
 <body>
-    <a href='index.php'>Home.</a>
+    <a href='index.php'>Home</a>
     <form method='post'>
         <label>name:
             <input name='name' type='text'/>
