@@ -68,12 +68,17 @@ class Game
      */
     public function saveGame(PDO $db) : Bool
     {
-        $gameExists = $db->prepare('SELECT `name`, `delete` FROM `games` WHERE `name` = :name AND `delete` = 1 ;');
-        $test = $gameExists->execute(['name' =>$this->name]);
-        if($test){
+        $gameIsDeleted = $db->prepare('SELECT `delete` FROM `games` WHERE `name` = :name ;');
+        $gameIsDeleted->execute(['name' =>$this->name]);
+        $testArray = $gameIsDeleted->fetch();
+        if($testArray === ['delete' => '1']){
             $restoreQuery = $db->prepare('UPDATE `games` SET `delete` = 0 WHERE `name` = :name AND `delete` = 1 LIMIT 1 ;');
             $this->editGame($db);
             return $restoreQuery->execute(['name' => $this->name]);
+        }
+        elseif($testArray === ['delete' => '0']){
+            echo 'Game already in the collection';
+            return false;
         }
         else{
             $addQuery = $db->prepare('INSERT INTO `games`(`name`,`genre`,`length`,`price`) VALUES (:name, :genre, :length, :price);');

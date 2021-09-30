@@ -26,7 +26,7 @@ formReader($db,$pageCheck);
             <input name='length' type='number'/>
         </label>
         <label>price:
-            <input name='price' type='number'/>
+            <input name='price' type='number' step='any'/>
         </label>
         <input type='submit'/>
     </form>

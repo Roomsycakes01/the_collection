@@ -23,7 +23,7 @@ class gameClassTest extends TestCase
     {
         $game = new Game('Journey', 'RPG', 15, 9.99);
         $result = $game->getter();
-        $this->assertEquals(['Journey', 'RPG', 15, 9.99], $result);
+        $this->assertEquals(['name' =>'Journey', 'genre' => 'RPG', 'length' => 15, 'price' => 9.99], $result);
     }
     public function testMalformedGetter()
     {

@@ -41,7 +41,7 @@ else{
         <input name='length' type='number' value='<?php echo $gameStats['length']?>' />
     </label>
     <label>price:
-        <input name='price' type='text' value='<?php echo $gameStats['price']?>' />
+        <input name='price' type='number' step='any' value='<?php echo $gameStats['price']?>' />
     </label>
     <input type='submit'/>
 </form>
