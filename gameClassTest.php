@@ -11,13 +11,13 @@ class gameClassTest extends TestCase
     {
         $game = new Game('Journey', 'RPG', 15, 9.99);
         $result = $game->strParams();
-        $this->assertEquals('Journey, RPG, 15, 9.99', $result);
+        $this->assertEquals('<span> Journey </span><span> RPG </span><span> 15 </span><span> 9.99 </span>', $result);
     }
     public function testMalformedStrParams()
     {
         $this->expectException(TypeError::class);
         $game = new Game(['Journey'], 'RPG', 15, 9.99);
-        $result = $game->strParams();
+        $game->strParams();
     }
     public function testSuccessGetter()
     {
@@ -29,7 +29,7 @@ class gameClassTest extends TestCase
     {
         $this->expectException(TypeError::class);
         $game = new Game(['Journey'], 'RPG', 15, 9.99);
-        $result = $game->getter();
+        $game->getter();
     }
 
 }
