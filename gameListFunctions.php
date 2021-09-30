@@ -78,7 +78,6 @@ function formReader(PDO $db, String $pageCheck) : Void
         elseif ($pageCheck === 'delete' && isset($_POST['name'])) {
             $game = new Game($_POST['name']);
             $test = $game->deleteGame($db);
-
         }
         else{
             $test = false;
@@ -88,5 +87,4 @@ function formReader(PDO $db, String $pageCheck) : Void
         }
     }
 }
-
 

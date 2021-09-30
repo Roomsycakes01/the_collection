@@ -22,5 +22,6 @@ formReader($db,$pageCheck);
         </label>
         <input type='submit'/>
     </form>
+    <p> Enter the name of the game you wish to delete.</p>
 </body>
 </html>

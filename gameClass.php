@@ -16,7 +16,7 @@ class Game
      * @param Float $price
      *
      */
-    public function __construct(String $name, String $genre = 'placeholder', Int $length = 0, Float $price = 0)
+    public function __construct(String $name, String $genre = '', Int $length = 0, Float $price = 0)
     {
         $this->name = $name;
         $this->genre = $genre;
@@ -25,12 +25,29 @@ class Game
     }
 
     /**
-     * Allows ou to get the objects parameters if needed
+     * Allows you to get the objects parameters if needed
      *
      * @return array
      */
     public function getter() : Array{
-        return [$this->name,$this->genre,$this->length,$this->price];
+        return ['name' => $this->name,'genre' => $this->genre,'length' => $this->length,'price' => $this->price];
+    }
+
+    /**
+     * Allows you to generate the objects stats from the db based on the name, returns true if successful.
+     *
+     * @param PDO $db
+     * @return bool
+     */
+    public function addStats(PDO $db) : bool
+    {
+        $addStats = $db->prepare('SELECT `name`, `genre`, `length`, `price` FROM `games` WHERE `name` = :name ;');
+        $test = $addStats->execute(['name' => $this->name]);
+        $statArray = $addStats-> fetch();
+        $this->genre = $statArray['genre'];
+        $this->length = $statArray['length'];
+        $this->price = $statArray['price'];
+        return $test;
     }
 
     /**
@@ -51,8 +68,8 @@ class Game
      */
     public function saveGame(PDO $db) : Bool
     {
-        $nameQuery = $db->prepare('SELECT `name`, `delete` FROM `games` WHERE `name` = :name AND `delete` = 1 ;');
-        $test = $nameQuery->execute(['name' =>$this->name]);
+        $gameExists = $db->prepare('SELECT `name`, `delete` FROM `games` WHERE `name` = :name AND `delete` = 1 ;');
+        $test = $gameExists->execute(['name' =>$this->name]);
         if($test){
             $restoreQuery = $db->prepare('UPDATE `games` SET `delete` = 0 WHERE `name` = :name AND `delete` = 1 LIMIT 1 ;');
             $this->editGame($db);
