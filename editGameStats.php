@@ -3,15 +3,20 @@ require_once('gameListFunctions.php');
 $db = dbConnection();
 $pageCheck = 'edit';
 formReader($db,$pageCheck);
-if(isset($_POST) && isset($_POST['name'])){
+if(isset($_POST) && isset($_POST['name']) && count($_POST) === 1){
     $name = $_POST['name'];
     $game = new game($name);
     $game->addStats($db);
     $gameStats = $game->getter();
 }
+elseif(isset($_POST)){
+    $name = $_POST['name'];
+    $gameStats = [$_POST['genre'], $_POST['length'], $_POST['price']];
+}
 else{
-    $name = 'error';
-    $gameStats = ['genre' => '','length' => '','price' => ''];
+    $name = null;
+    $gameStats = null;
+    header('Location: index.html');
 }
 ?>
 
