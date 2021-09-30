@@ -57,7 +57,7 @@ class Game
      */
     public function strParams() : String
     {
-        return '<span>' . $this->name . '</span><span>' . $this->genre . '</span><span>' . $this->length . '</span><span>' . $this->price . '</span>';
+        return '<span> ' . $this->name . ' </span><span> ' . $this->genre . ' </span><span> ' . $this->length . ' </span><span> ' . $this->price . ' </span>';
     }
 
     /**
