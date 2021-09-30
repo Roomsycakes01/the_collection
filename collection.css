@@ -23,4 +23,7 @@ header{
     display: flex;
     justify-content: center;
 }
+form{
+    margin: 5px 0px;
+}
 
