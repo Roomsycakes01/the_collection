@@ -1,3 +1,7 @@
+<?php
+require_once('gameListFunctions.php');
+$db = dbConnection();
+?>
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -11,7 +15,9 @@
 <a href='index.php'>Home.</a>
 <form method='post' action='editGameStats.php' >
     <label>name:
-        <input name='name' type='text'/>
+        <select name='name' autocomplete='off'>
+             <?php echo dropDownOptions(nameQuery($db)); ?>
+        </select>
     </label>
     <input type='submit'/>
 </form>

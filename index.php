@@ -16,7 +16,7 @@ $objectArray = objectArray(fullQuery($db));
 <body>
     <h1>Home</h1>
     <a href='saveGame.php'>Add a game</a>
-    <a href='editGame.html'>Edit a game</a>
+    <a href='editGame.php'>Edit a game</a>
     <a href='deleteGame.php'>Delete a game</a>
     <?php
     echo listGen($objectArray);

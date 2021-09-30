@@ -20,11 +20,22 @@ function dbConnection() : PDO{
  * @param PDO $db
  * @return array
  */
-function fullQuery(PDO $db) : Array
-{
+function fullQuery(PDO $db) : Array{
     $fullQuery = $db->prepare('SELECT `name`, `genre`, `length`, `price` FROM `games` WHERE `delete` = 0 ;');
     $fullQuery->execute();
     return $fullQuery->fetchAll();
+}
+
+/**
+ * This code gets an array of the names in the  database
+ *
+ * @param PDO $db
+ * @return array
+ */
+function nameQuery(PDO $db) :Array{
+    $nameQuery = $db->prepare('SELECT `name` FROM `games` WHERE `delete` = 0 ;');
+    $nameQuery->execute();
+    return $nameQuery->fetchAll();
 }
 
 /**
@@ -86,5 +97,19 @@ function formReader(PDO $db, String $pageCheck) : Void
             header('Location: index.php');
         }
     }
+}
+
+/**
+ * returns options for a dropdown list from a query array.
+ *
+ * @param array $bigArray
+ * @return String
+ */
+function dropDownOptions(Array $bigArray) : String{
+    $output = '';
+    foreach($bigArray as $array){
+        $output .= '<option value=' . "'" . $array['name']. "'" . '>' . $array['name'] . '</option>';
+    }
+    return $output;
 }
 

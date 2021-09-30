@@ -18,7 +18,9 @@ formReader($db,$pageCheck);
     <a href='index.php'>Home.</a>
     <form method='post'>
         <label>name:
-            <input name='name' type='text'/>
+            <select name='name' autocomplete='off'>
+                <?php echo dropDownOptions(nameQuery($db)); ?>
+            </select>
         </label>
         <input type='submit'/>
     </form>
